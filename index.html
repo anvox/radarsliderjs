@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Radar Slider JS</title>
+<script type="text/javascript" src="lib/dependencies/raphael-min.js"></script>
+<script type="text/javascript" src="lib/dependencies/math.min.js"></script>
+</head>
+
+<body>
+<div id="canvas" style="width:400px;height:400px;background-color:#eeeeee;"></div>
+<script type="text/javascript">
+  function get_nearest_point(pool, point){
+    var m = (pool[0][0] - point[0])*(pool[0][0] - point[0]) + (pool[0][1] - point[1])*(pool[0][1] - point[1]);
+    var i_min = 0;
+    for (var k = 1; k < pool.length; k++) {
+      var d = (pool[k][0] - point[0])*(pool[k][0] - point[0]) + (pool[k][1] - point[1])*(pool[k][1] - point[1]);
+
+      if(m < d){
+        m = d;
+        i_min = k;
+      }
+    };
+    return pool[i_min];
+  };
+  var x0 = 200;
+  var y0 = 200;
+
+  var point_width = 2;
+
+  var current_points = [[x0,y0],[x0,y0],[x0,y0],[x0,y0],[x0,y0]];
+  var shift_points = [[0,0],[0,0],[0,0],[0,0],[0,0]];
+  var point_map = [[],[],[],[],[]];
+
+  var data = {
+    max: 5,
+    labels: ['one','two','three','four','five']
+  }
+
+  var slider_values = [0,3,2,4,2]
+
+  var paper = Raphael("canvas",400,400);
+  var circle0 = paper.circle(x0, y0, 1).attr("stroke", "#000");
+  var circle1 = paper.circle(x0, y0, 20).attr("stroke", "#000");
+  var circle2 = paper.circle(x0, y0, 60).attr("stroke", "#000");
+  var circle3 = paper.circle(x0, y0, 100).attr("stroke", "#000");
+  var circle4 = paper.circle(x0, y0, 140).attr("stroke", "#000");
+  var circle5 = paper.circle(x0, y0, 180).attr("stroke", "#000");
+
+  x1 = x0 + math.eval('180 * cos(0 deg)')
+  y1 = y0 - math.eval('180 * sin(0 deg)')
+
+  x2 = x0 + math.eval('180 * cos(72 deg)')
+  y2 = y0 - math.eval('180 * sin(72 deg)')
+
+  x3 = x0 + math.eval('180 * cos(144 deg)')
+  y3 = y0 - math.eval('180 * sin(144 deg)')
+
+  x4 = x0 + math.eval('180 * cos(216 deg)')
+  y4 = y0 - math.eval('180 * sin(216 deg)')
+
+  x5 = x0 + math.eval('180 * cos(288 deg)')
+  y5 = y0 - math.eval('180 * sin(288 deg)')
+
+  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x1+" "+y1);
+  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x2+" "+y2);
+  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x3+" "+y3);
+  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x4+" "+y4);
+  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x5+" "+y5);
+
+  for (var i = 0; i < 5; i++) {
+    r = 20 + i*40
+
+    x1 = x0 + math.eval(r + ' * cos(0 deg)')
+    y1 = y0 - math.eval(r + ' * sin(0 deg)')
+    point_map[0].push([x1,y1]);
+
+    x2 = x0 + math.eval(r + ' * cos(72 deg)')
+    y2 = y0 - math.eval(r + ' * sin(72 deg)')
+    point_map[1].push([x2,y2]);
+
+    x3 = x0 + math.eval(r + ' * cos(144 deg)')
+    y3 = y0 - math.eval(r + ' * sin(144 deg)')
+    point_map[2].push([x3,y3]);
+
+    x4 = x0 + math.eval(r + ' * cos(216 deg)')
+    y4 = y0 - math.eval(r + ' * sin(216 deg)')
+    point_map[3].push([x4,y4]);
+
+    x5 = x0 + math.eval(r + ' * cos(288 deg)')
+    y5 = y0 - math.eval(r + ' * sin(288 deg)')
+    point_map[4].push([x5,y5]);
+
+    var point1 = paper.circle(x1, y1, point_width).attr("stroke", "#000").attr("fill", "#000");
+    var point2 = paper.circle(x2, y2, point_width).attr("stroke", "#000").attr("fill", "#000");
+    var point3 = paper.circle(x3, y3, point_width).attr("stroke", "#000").attr("fill", "#000");
+    var point4 = paper.circle(x4, y4, point_width).attr("stroke", "#000").attr("fill", "#000");
+    var point5 = paper.circle(x5, y5, point_width).attr("stroke", "#000").attr("fill", "#000");
+  };
+
+  p = "";
+  var x = 0;
+  var y = 0;
+  for (var i = 0; i < slider_values.length; i++) {
+    r = 20 + slider_values[i]*40;
+    x = x0 + math.eval(r + ' * cos(' + (i*72) + ' deg)')
+    y = y0 - math.eval(r + ' * sin(' + (i*72) + ' deg)')
+    current_points[i] = [x,y]
+    p = p + "L" + x + " " + y
+  };
+
+  var path = paper.path("M" + x + " " + y + p).attr("stroke", "#88f").attr("fill","#88f").attr({'fill-opacity':0.5});
+
+  for (var i = 0; i < current_points.length; i++) {
+    x = current_points[i][0]
+    y = current_points[i][1]
+
+    var onMove = function(dx,dy, mx, my) {
+      i = this.radar_index;
+
+      n_x = current_points[i][0] + dx;
+      n_y = current_points[i][1] + dy;
+
+      // Find nearest value
+      // [n_x, n_y] in point_map[i]
+      // next = get_nearest_point(point_map[i], [mx, my]);
+      // n_x = next[0];
+      // n_y = next[1];
+
+      console.log("mouse:"+mx+","+my+" get:"+n_x+","+n_y);
+
+      this.attr("cx", n_x);
+      this.attr("cy", n_y);
+
+      shift_points[i] = [dx,dy];
+
+      p = ""
+      for (var j = 0; j < current_points.length; j++) {
+        if(i == j){
+          p = p + "L" + (n_x) + " " + (n_y)
+        }else{
+          p = p + "L" + (current_points[j][0] + shift_points[j][0]) + " " + (current_points[j][1] + shift_points[j][1])
+        }
+      };
+      path.remove();
+      path = paper.path("M" + current_points[4][0] + " " + current_points[4][1] + p).attr("stroke", "#88f").attr("fill","#88f").attr({'fill-opacity':0.4});
+    };
+    var onStart = function() {
+      i = this.radar_index;
+
+      this.attr("cx", current_points[i][0]);
+      this.attr("cy", current_points[i][1]);
+    };
+    var onEnd = function() {
+      i = this.radar_index;
+
+      current_points[i] = [current_points[i][0] + shift_points[i][0], current_points[i][1] + shift_points[i][1]];
+      shift_points[i] = [0,0];
+      this.toFront();
+    };
+
+    var circle = paper.circle(x, y, 5).attr("stroke", "#fff").attr("fill", "#88f");
+    circle.radar_index = i;
+    circle.drag(onMove, onStart, onEnd);
+    circle.toFront();
+  };
+
+</script>
+</body>
+</html>
