@@ -143,7 +143,11 @@
         }
       };
       path.remove();
-      path = paper.path("M" + current_points[4][0] + " " + current_points[4][1] + p).attr("stroke", "#88f").attr("fill","#88f").attr({'fill-opacity':0.4});
+      if(i == 4){
+        path = paper.path("M" + (current_points[4][0] + shift_points[4][0]) + " " + (current_points[4][1] + shift_points[4][1]) + p).attr("stroke", "#88f").attr("fill","#88f").attr({'fill-opacity':0.4});
+      }else{
+        path = paper.path("M" + current_points[4][0] + " " + current_points[4][1] + p).attr("stroke", "#88f").attr("fill","#88f").attr({'fill-opacity':0.4});
+      }
     };
     var onStart = function() {
       i = this.radar_index;
