@@ -33,6 +33,7 @@
   var current_points = [[x0,y0],[x0,y0],[x0,y0],[x0,y0],[x0,y0]];
   var shift_points = [[0,0],[0,0],[0,0],[0,0],[0,0]];
   var point_map = [[],[],[],[],[]];
+  var slide_pointers = [];
 
   var data = {
     max: 5,
@@ -162,13 +163,17 @@
 
       current_points[i] = [this.attr("cx"),this.attr("cy")];
       shift_points[i] = [0,0];
-      this.toFront();
+      
+      for (var l = 0; l < slide_pointers.length; l++) {
+        slide_pointers[l].toFront();
+      };
     };
 
-    var circle = paper.circle(x, y, 5).attr("stroke", "#fff").attr("fill", "#88f");
+    var circle = paper.circle(x, y, 6).attr("stroke", "#fff").attr("fill", "#88f");
     circle.radar_index = i;
     circle.drag(onMove, onStart, onEnd);
     circle.toFront();
+    slide_pointers[i] = circle;
   };
 
 </script>
