@@ -43,12 +43,12 @@
   var slider_values = [0,3,2,4,2]
 
   var paper = Raphael("canvas",400,400);
-  var circle0 = paper.circle(x0, y0, 1).attr("stroke", "#000");
-  var circle1 = paper.circle(x0, y0, 20).attr("stroke", "#000");
-  var circle2 = paper.circle(x0, y0, 60).attr("stroke", "#000");
-  var circle3 = paper.circle(x0, y0, 100).attr("stroke", "#000");
-  var circle4 = paper.circle(x0, y0, 140).attr("stroke", "#000");
-  var circle5 = paper.circle(x0, y0, 180).attr("stroke", "#000");
+  var circle0 = paper.circle(x0, y0, 1).attr("stroke", "#000").glow({color: "#000",width: 2});
+  var circle1 = paper.circle(x0, y0, 20).attr("stroke", "#000").glow({color: "#000",width: 2});
+  var circle2 = paper.circle(x0, y0, 60).attr("stroke", "#000").glow({color: "#000",width: 2});
+  var circle3 = paper.circle(x0, y0, 100).attr("stroke", "#000").glow({color: "#000",width: 2});
+  var circle4 = paper.circle(x0, y0, 140).attr("stroke", "#000").glow({color: "#000",width: 2});
+  var circle5 = paper.circle(x0, y0, 180).attr("stroke", "#000").glow({color: "#000",width: 2});
 
   x1 = x0 + math.eval('180 * cos(0 deg)')
   y1 = y0 - math.eval('180 * sin(0 deg)')
@@ -65,11 +65,11 @@
   x5 = x0 + math.eval('180 * cos(288 deg)')
   y5 = y0 - math.eval('180 * sin(288 deg)')
 
-  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x1+" "+y1);
-  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x2+" "+y2);
-  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x3+" "+y3);
-  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x4+" "+y4);
-  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x5+" "+y5);
+  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x1+" "+y1).glow({color: "#000",width: 2});
+  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x2+" "+y2).glow({color: "#000",width: 2});
+  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x3+" "+y3).glow({color: "#000",width: 2});
+  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x4+" "+y4).glow({color: "#000",width: 2});
+  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x5+" "+y5).glow({color: "#000",width: 2});
 
   for (var i = 0; i < 5; i++) {
     r = 20 + i*40
