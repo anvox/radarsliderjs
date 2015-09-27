@@ -8,165 +8,105 @@
 
 <script type="text/javascript" src="lib/radarslider/models/slider.js"></script>
 <script type="text/javascript" src="lib/radarslider/utils/utils.js"></script>
+<script type="text/javascript" src="lib/radarslider/views/radar_default_option.js"></script>
+<script type="text/javascript" src="lib/radarslider/views/radar_default_theme.js"></script>
+<script type="text/javascript" src="lib/radarslider/views/radar_default_renderer.js"></script>
 </head>
 
 <body>
 <div id="canvas" style="width:400px;height:400px;background-color:#eeeeee;"></div>
 <script type="text/javascript">
-  var x0 = 200;
-  var y0 = 200;
+  var slide_data = new RadarSlider.SliderModel(0,4,1,["Lorem 1","Lorem 2","Lorem 3","Lorem 4","Lorem 5"],[0,3,2,4,2]);
+  var radar_option = new RadarSlider.RadarDefaultOption(slide_data);
+  var radar_theme = new RadarSlider.RadarDefaultTheme();
 
-  var point_width = 2;
+  var x0 = radar_option.center_point.x;
+  var y0 = radar_option.center_point.y;
 
-  var current_points = [[x0,y0],[x0,y0],[x0,y0],[x0,y0],[x0,y0]];
-  var shift_points = [[0,0],[0,0],[0,0],[0,0],[0,0]];
+  var current_points = radar_option.build_default_current_points();
+  var shift_points = radar_option.build_default_shift_points();
   var point_map = [[],[],[],[],[]];
   var slide_pointers = [];
 
-  var data = {
-    max: 5,
-    labels: ['one','two','three','four','five']
-  }
+  var renderer = new RadarSlider.RadarDefaultRenderer(radar_option,radar_theme);
+  var paper = renderer._paper;
 
-  var slider_values = [0,3,2,4,2]
+  // p = "";
+  // var x = 0;
+  // var y = 0;
+  // for (var i = 0; i < slide_data.values.length; i++) {
+  //   r = 20 + slide_data.values[i]*40;
+  //   x = x0 + math.eval(r + ' * cos(' + (i*72) + ' deg)')
+  //   y = y0 - math.eval(r + ' * sin(' + (i*72) + ' deg)')
+  //   current_points[i] = [x,y]
+  //   p = p + "L" + x + " " + y
+  // };
 
-  var paper = Raphael("canvas",400,400);
-  var circle0 = paper.circle(x0, y0, 1).attr("stroke", "#000").glow({color: "#000",width: 2});
-  var circle1 = paper.circle(x0, y0, 20).attr("stroke", "#000").glow({color: "#000",width: 2});
-  var circle2 = paper.circle(x0, y0, 60).attr("stroke", "#000").glow({color: "#000",width: 2});
-  var circle3 = paper.circle(x0, y0, 100).attr("stroke", "#000").glow({color: "#000",width: 2});
-  var circle4 = paper.circle(x0, y0, 140).attr("stroke", "#000").glow({color: "#000",width: 2});
-  var circle5 = paper.circle(x0, y0, 180).attr("stroke", "#000").glow({color: "#000",width: 2});
+  // var path = paper.path("M" + x + " " + y + p).attr("stroke", "#88f").attr("fill","#88f").attr({'fill-opacity':0.5});
 
-  x1 = x0 + math.eval('180 * cos(0 deg)')
-  y1 = y0 - math.eval('180 * sin(0 deg)')
+  // for (var i = 0; i < current_points.length; i++) {
+  //   x = current_points[i][0]
+  //   y = current_points[i][1]
 
-  x2 = x0 + math.eval('180 * cos(72 deg)')
-  y2 = y0 - math.eval('180 * sin(72 deg)')
+  //   var onMove = function(dx,dy, mx, my) {
+  //     i = this.radar_index;
 
-  x3 = x0 + math.eval('180 * cos(144 deg)')
-  y3 = y0 - math.eval('180 * sin(144 deg)')
+  //     n_x = current_points[i][0] + dx;
+  //     n_y = current_points[i][1] + dy;
 
-  x4 = x0 + math.eval('180 * cos(216 deg)')
-  y4 = y0 - math.eval('180 * sin(216 deg)')
+  //     // Find nearest value
+  //     // [n_x, n_y] in point_map[i]
+  //     next = RadarSlider.Utils.get_nearest_point(radar_option.criteria[i], [mx, my]);
+  //     n_x = next[0];
+  //     n_y = next[1];
 
-  x5 = x0 + math.eval('180 * cos(288 deg)')
-  y5 = y0 - math.eval('180 * sin(288 deg)')
+  //     this.attr("cx", n_x);
+  //     this.attr("cy", n_y);
 
-  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x1+" "+y1).glow({color: "#000",width: 2});
-  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x2+" "+y2).glow({color: "#000",width: 2});
-  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x3+" "+y3).glow({color: "#000",width: 2});
-  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x4+" "+y4).glow({color: "#000",width: 2});
-  var line1 = paper.path("M" + x0 + " " + y0 + "L"+x5+" "+y5).glow({color: "#000",width: 2});
+  //     shift_points[i] = [dx,dy];
 
-  for (var i = 0; i < 5; i++) {
-    r = 20 + i*40
+  //     p = ""
+  //     for (var j = 0; j < current_points.length; j++) {
+  //       if(i == j){
+  //         p = p + "L" + (n_x) + " " + (n_y)
+  //       }else{
+  //         p = p + "L" + (current_points[j][0] + shift_points[j][0]) + " " + (current_points[j][1] + shift_points[j][1])
+  //       }
+  //     };
+  //     path.remove();
+  //     if(i == 4){
+  //       path = paper.path("M" + (n_x) + " " + (n_y) + p).attr("stroke", "#88f").attr("fill","#88f").attr({'fill-opacity':0.4});
+  //     }else{
+  //       path = paper.path("M" + current_points[4][0] + " " + current_points[4][1] + p)
+  //         .attr("stroke", "#88f")
+  //         .attr("fill","#88f")
+  //         .attr({'fill-opacity':0.3});
+  //       // path.glow({color: "#88f",width: 2});
+  //     }
+  //   };
+  //   var onStart = function() {
+  //     i = this.radar_index;
 
-    x1 = x0 + math.eval(r + ' * cos(0 deg)')
-    y1 = y0 - math.eval(r + ' * sin(0 deg)')
-    point_map[0].push([x1,y1]);
+  //     this.attr("cx", current_points[i][0]);
+  //     this.attr("cy", current_points[i][1]);
+  //   };
+  //   var onEnd = function() {
+  //     i = this.radar_index;
 
-    x2 = x0 + math.eval(r + ' * cos(72 deg)')
-    y2 = y0 - math.eval(r + ' * sin(72 deg)')
-    point_map[1].push([x2,y2]);
-
-    x3 = x0 + math.eval(r + ' * cos(144 deg)')
-    y3 = y0 - math.eval(r + ' * sin(144 deg)')
-    point_map[2].push([x3,y3]);
-
-    x4 = x0 + math.eval(r + ' * cos(216 deg)')
-    y4 = y0 - math.eval(r + ' * sin(216 deg)')
-    point_map[3].push([x4,y4]);
-
-    x5 = x0 + math.eval(r + ' * cos(288 deg)')
-    y5 = y0 - math.eval(r + ' * sin(288 deg)')
-    point_map[4].push([x5,y5]);
-
-    var point1 = paper.circle(x1, y1, point_width).attr("stroke", "#000").attr("fill", "#000");
-    var point2 = paper.circle(x2, y2, point_width).attr("stroke", "#000").attr("fill", "#000");
-    var point3 = paper.circle(x3, y3, point_width).attr("stroke", "#000").attr("fill", "#000");
-    var point4 = paper.circle(x4, y4, point_width).attr("stroke", "#000").attr("fill", "#000");
-    var point5 = paper.circle(x5, y5, point_width).attr("stroke", "#000").attr("fill", "#000");
-  };
-
-  p = "";
-  var x = 0;
-  var y = 0;
-  for (var i = 0; i < slider_values.length; i++) {
-    r = 20 + slider_values[i]*40;
-    x = x0 + math.eval(r + ' * cos(' + (i*72) + ' deg)')
-    y = y0 - math.eval(r + ' * sin(' + (i*72) + ' deg)')
-    current_points[i] = [x,y]
-    p = p + "L" + x + " " + y
-  };
-
-  var path = paper.path("M" + x + " " + y + p).attr("stroke", "#88f").attr("fill","#88f").attr({'fill-opacity':0.5});
-
-  for (var i = 0; i < current_points.length; i++) {
-    x = current_points[i][0]
-    y = current_points[i][1]
-
-    var onMove = function(dx,dy, mx, my) {
-      i = this.radar_index;
-
-      n_x = current_points[i][0] + dx;
-      n_y = current_points[i][1] + dy;
-
-      // Find nearest value
-      // [n_x, n_y] in point_map[i]
-      next = RadarSlider.Utils.get_nearest_point(point_map[i], [mx, my]);
-      n_x = next[0];
-      n_y = next[1];
-
-      console.log("mouse:"+i);
-
-      this.attr("cx", n_x);
-      this.attr("cy", n_y);
-
-      shift_points[i] = [dx,dy];
-
-      p = ""
-      for (var j = 0; j < current_points.length; j++) {
-        if(i == j){
-          p = p + "L" + (n_x) + " " + (n_y)
-        }else{
-          p = p + "L" + (current_points[j][0] + shift_points[j][0]) + " " + (current_points[j][1] + shift_points[j][1])
-        }
-      };
-      path.remove();
-      if(i == 4){
-        path = paper.path("M" + (n_x) + " " + (n_y) + p).attr("stroke", "#88f").attr("fill","#88f").attr({'fill-opacity':0.4});
-      }else{
-        path = paper.path("M" + current_points[4][0] + " " + current_points[4][1] + p)
-          .attr("stroke", "#88f")
-          .attr("fill","#88f")
-          .attr({'fill-opacity':0.3});
-        // path.glow({color: "#88f",width: 2});
-      }
-    };
-    var onStart = function() {
-      i = this.radar_index;
-
-      this.attr("cx", current_points[i][0]);
-      this.attr("cy", current_points[i][1]);
-    };
-    var onEnd = function() {
-      i = this.radar_index;
-
-      current_points[i] = [this.attr("cx"),this.attr("cy")];
-      shift_points[i] = [0,0];
+  //     current_points[i] = [this.attr("cx"),this.attr("cy")];
+  //     shift_points[i] = [0,0];
       
-      for (var l = 0; l < slide_pointers.length; l++) {
-        slide_pointers[l].toFront();
-      };
-    };
+  //     for (var l = 0; l < slide_pointers.length; l++) {
+  //       slide_pointers[l].toFront();
+  //     };
+  //   };
 
-    var circle = paper.circle(x, y, 6).attr("stroke", "#fff").attr("fill", "#88f");
-    circle.radar_index = i;
-    circle.drag(onMove, onStart, onEnd);
-    circle.toFront();
-    slide_pointers[i] = circle;
-  };
+  //   var circle = paper.circle(x, y, 6).attr("stroke", "#fff").attr("fill", "#88f");
+  //   circle.radar_index = i;
+  //   circle.drag(onMove, onStart, onEnd);
+  //   circle.toFront();
+  //   slide_pointers[i] = circle;
+  // };
 
 </script>
 </body>
