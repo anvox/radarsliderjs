@@ -5,26 +5,14 @@
 <title>Radar Slider JS</title>
 <script type="text/javascript" src="lib/dependencies/raphael-min.js"></script>
 <script type="text/javascript" src="lib/dependencies/math.min.js"></script>
+
+<script type="text/javascript" src="lib/radarslider/models/slider.js"></script>
+<script type="text/javascript" src="lib/radarslider/utils/utils.js"></script>
 </head>
 
 <body>
 <div id="canvas" style="width:400px;height:400px;background-color:#eeeeee;"></div>
 <script type="text/javascript">
-  function distance(p1,p2){
-    return Math.sqrt((p1[0] - p2[0])*(p1[0] - p2[0]) + (p1[1] - p2[1])*(p1[1] - p2[1]));
-  }
-  function get_nearest_point(pool, point){
-    var m = distance(pool[0],point);
-    var i_min = 0;
-    for (var k = 1; k < pool.length; k++) {
-      var d = distance(pool[k],point);
-      if(d < m){
-        m = d;
-        i_min = k;
-      }
-    };
-    return pool[i_min];
-  };
   var x0 = 200;
   var y0 = 200;
 
@@ -126,7 +114,7 @@
 
       // Find nearest value
       // [n_x, n_y] in point_map[i]
-      next = get_nearest_point(point_map[i], [mx, my]);
+      next = RadarSlider.Utils.get_nearest_point(point_map[i], [mx, my]);
       n_x = next[0];
       n_y = next[1];
 
@@ -149,7 +137,11 @@
       if(i == 4){
         path = paper.path("M" + (n_x) + " " + (n_y) + p).attr("stroke", "#88f").attr("fill","#88f").attr({'fill-opacity':0.4});
       }else{
-        path = paper.path("M" + current_points[4][0] + " " + current_points[4][1] + p).attr("stroke", "#88f").attr("fill","#88f").attr({'fill-opacity':0.4});
+        path = paper.path("M" + current_points[4][0] + " " + current_points[4][1] + p)
+          .attr("stroke", "#88f")
+          .attr("fill","#88f")
+          .attr({'fill-opacity':0.3});
+        // path.glow({color: "#88f",width: 2});
       }
     };
     var onStart = function() {
