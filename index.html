@@ -6,6 +6,7 @@
 <script type="text/javascript" src="lib/dependencies/raphael-min.js"></script>
 <script type="text/javascript" src="lib/dependencies/math.min.js"></script>
 
+<script type="text/javascript" src="lib/radarslider/controllers/radar_controller.js"></script>
 <script type="text/javascript" src="lib/radarslider/models/slider.js"></script>
 <script type="text/javascript" src="lib/radarslider/utils/utils.js"></script>
 <script type="text/javascript" src="lib/radarslider/views/radar_default_option.js"></script>
@@ -16,84 +17,9 @@
 <body>
 <div id="canvas" style="width:400px;height:400px;background-color:#eeeeee;"></div>
 <script type="text/javascript">
-  var slide_data = new RadarSlider.SliderModel(0,4,1,["Lorem 1","Lorem 2","Lorem 3","Lorem 4","Lorem 5"],[0,3,2,4,2]);
-  var radar_option = new RadarSlider.RadarDefaultOption(slide_data);
-  var radar_theme = new RadarSlider.RadarDefaultTheme();
-
-  var x0 = radar_option.center_point.x;
-  var y0 = radar_option.center_point.y;
-
-  var current_points = radar_option.build_default_current_points();
-  var shift_points = radar_option.build_default_shift_points();
-  var point_map = [[],[],[],[],[]];
-  var slide_pointers = [];
-
-  var renderer = new RadarSlider.RadarDefaultRenderer(radar_option,radar_theme);
-  var paper = renderer._paper;
-
-  // for (var i = 0; i < current_points.length; i++) {
-  //   x = current_points[i][0]
-  //   y = current_points[i][1]
-
-  //   var onMove = function(dx,dy, mx, my) {
-  //     i = this.radar_index;
-
-  //     n_x = current_points[i][0] + dx;
-  //     n_y = current_points[i][1] + dy;
-
-  //     // Find nearest value
-  //     // [n_x, n_y] in point_map[i]
-  //     next = RadarSlider.Utils.get_nearest_point(radar_option.criteria[i], [mx, my]);
-  //     n_x = next[0];
-  //     n_y = next[1];
-
-  //     this.attr("cx", n_x);
-  //     this.attr("cy", n_y);
-
-  //     shift_points[i] = [dx,dy];
-
-  //     p = ""
-  //     for (var j = 0; j < current_points.length; j++) {
-  //       if(i == j){
-  //         p = p + "L" + (n_x) + " " + (n_y)
-  //       }else{
-  //         p = p + "L" + (current_points[j][0] + shift_points[j][0]) + " " + (current_points[j][1] + shift_points[j][1])
-  //       }
-  //     };
-  //     path.remove();
-  //     if(i == 4){
-  //       path = paper.path("M" + (n_x) + " " + (n_y) + p).attr("stroke", "#88f").attr("fill","#88f").attr({'fill-opacity':0.4});
-  //     }else{
-  //       path = paper.path("M" + current_points[4][0] + " " + current_points[4][1] + p)
-  //         .attr("stroke", "#88f")
-  //         .attr("fill","#88f")
-  //         .attr({'fill-opacity':0.3});
-  //       // path.glow({color: "#88f",width: 2});
-  //     }
-  //   };
-  //   var onStart = function() {
-  //     i = this.radar_index;
-
-  //     this.attr("cx", current_points[i][0]);
-  //     this.attr("cy", current_points[i][1]);
-  //   };
-  //   var onEnd = function() {
-  //     i = this.radar_index;
-
-  //     current_points[i] = [this.attr("cx"),this.attr("cy")];
-  //     shift_points[i] = [0,0];
-      
-  //     for (var l = 0; l < slide_pointers.length; l++) {
-  //       slide_pointers[l].toFront();
-  //     };
-  //   };
-
-  //   var circle = paper.circle(x, y, 6).attr("stroke", "#fff").attr("fill", "#88f");
-  //   circle.radar_index = i;
-  //   circle.drag(onMove, onStart, onEnd);
-  //   circle.toFront();
-  //   slide_pointers[i] = circle;
-  // };
+  var data = new RadarSlider.SliderModel(0,4,1,["Lorem 1","Lorem 2","Lorem 3","Lorem 4","Lorem 5"],[0,3,2,4,2]);
+  var theme = new RadarSlider.RadarDefaultTheme();
+  var controller = new RadarSlider.RadarController(data, theme);
 
 </script>
 </body>
