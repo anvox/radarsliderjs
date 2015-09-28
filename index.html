@@ -9,6 +9,7 @@
 <script type="text/javascript" src="lib/radarslider/controllers/radar_controller.js"></script>
 <script type="text/javascript" src="lib/radarslider/models/slider.js"></script>
 <script type="text/javascript" src="lib/radarslider/utils/utils.js"></script>
+<script type="text/javascript" src="lib/radarslider/views/radar_presenter.js"></script>
 <script type="text/javascript" src="lib/radarslider/views/radar_default_option.js"></script>
 <script type="text/javascript" src="lib/radarslider/views/radar_default_theme.js"></script>
 <script type="text/javascript" src="lib/radarslider/views/radar_default_renderer.js"></script>
@@ -17,10 +18,8 @@
 <body>
 <div id="canvas" style="width:400px;height:400px;background-color:#eeeeee;"></div>
 <script type="text/javascript">
-  var data = new RadarSlider.SliderModel(0,4,1,["Lorem 1","Lorem 2","Lorem 3","Lorem 4","Lorem 5"],[0,3,2,4,2]);
-  var theme = new RadarSlider.RadarDefaultTheme();
-  var controller = new RadarSlider.RadarController(data, theme);
-
+  var data = new RadarSlider.SliderModel(0,4,1,["Lorem 1","Lorem 2","Lorem 3","Lorem 4","Lorem 5","Lorem 6"],[0,3,2,4,2,1]);
+  var controller = new RadarSlider.RadarController(data);
 </script>
 </body>
 </html>
