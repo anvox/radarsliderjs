@@ -17,9 +17,17 @@
 
 <body>
 <div id="canvas" style="width:500px;height:500px;background-color:#eeeeee;"></div>
+<div id="legend" style="width:500px;">
+</div>
 <script type="text/javascript">
   var data = new RadarSlider.SliderModel(0,10,1,
-    ["Lorem 1","Lorem 2","Lorem 3","Lorem 4","Lorem 5","Lorem 6","Lorem 7"],
+    [ "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "Nullam vehicula tincidunt sapien, eget ullamcorper urna luctus quis.",
+      "Proin tempor lacus turpis. ",
+      "Praesent.",
+      "Donec vitae ullamcorper nisi, eu varius mi.",
+      "Aenean tincidunt dictum odio, eu lacinia mauris sollicitudin sit amet.",
+      "Curabitur pellentesque pellentesque arcu"],
     [0,3,2,4,2,1,1]);
   var controller = new RadarSlider.RadarController(data);
 </script>
