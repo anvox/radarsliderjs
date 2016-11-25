@@ -1,0 +1,13 @@
+{
+  "name": "radarsliderjs",
+  "version": "0.0.1",
+  "description": "Radar slider for multiple criteria",
+  "main": "index.js",
+  "repository": "https://github.com/anvox/radarsliderjs.git",
+  "author": "An Vo <thien.an.vo.nguyen@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "mathjs": "^3.8.0",
+    "raphael": "^2.2.7"
+  }
+}
