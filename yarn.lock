@@ -18,6 +18,10 @@ fraction.js@3.3.1:
   version "3.3.1"
   resolved "http://registry.npmjs.org/fraction.js/-/fraction.js-3.3.1.tgz#5d6a31ff07707294f204ccbb6b53791607771083"
 
+jquery@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.1.1.tgz#347c1c21c7e004115e0a4da32cece041fad3c8a3"
+
 mathjs@^3.8.0:
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-3.8.0.tgz#232af4871e4e8249f5b46a98ede7deae92026634"
